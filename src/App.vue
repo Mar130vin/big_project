@@ -1,24 +1,12 @@
 <template>
-  <div id="app">
-    123
-
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-import { getListAPI } from '@/api'
 export default {
-  created () {
-    this.getListFn()
-  },
-  methods: {
-    async getListFn () {
-      const res = await getListAPI()
-      console.log(res)
-    }
-  }
+  name: 'App'
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 </style>
