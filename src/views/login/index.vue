@@ -64,7 +64,7 @@ export default {
           if (res.status !== 0) return this.$message.error('账号或密码错误')
           this.updateToken(res.token)
           this.$message.success(res.message)
-          this.$router.push('/')
+          this.$router.replace('/')
           // this.$router.push({ path: '/login' })
         } else {
           console.log('error submit!!')
