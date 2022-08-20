@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import './assets/global.less'
 import './elementUI/index'
+import VueCropper from 'vue-cropper'
+Vue.use(VueCropper)
 
 Vue.config.productionTip = false
 

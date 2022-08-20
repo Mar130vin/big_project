@@ -37,7 +37,7 @@
         <el-menu
           router
           unique-opened
-          default-active="/home"
+          :default-active="$route.path"
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose"
@@ -67,8 +67,8 @@
             </template>
             <el-menu-item-group>
               <!-- <template slot="title">分组一</template> -->
-              <el-menu-item index="/my/userinfo">基本资料</el-menu-item>
-              <el-menu-item index="/my/update/avatar">更换头像</el-menu-item>
+              <el-menu-item index="/userinfo">基本资料</el-menu-item>
+              <el-menu-item index="/updateavatar">更换头像</el-menu-item>
               <el-menu-item index="/my/updatepwd">重置密码</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -78,7 +78,7 @@
       <el-container>
         <!-- 页面主体区域 -->
         <el-main>
-          Main.vue后台主页
+          <router-view></router-view>
         </el-main>
         <!-- 底部 footer 区域 -->
         <el-footer> <a href="https://mar130vin.github.io/">个人博客</a></el-footer>
@@ -102,10 +102,6 @@ export default {
         this.$store.commit('updateUserinfo', {})
         this.$router.push('/login')
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
       })
     },
     handleOpen (key, keyPath) {

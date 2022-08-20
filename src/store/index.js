@@ -34,12 +34,12 @@ export default new Vuex.Store({
   actions: {
     // 定义初始化用户基本信息的 action 函数
     async initUserInfo (context) {
-      // const { data: res } = await userinfoAPI()
-      const data = await userinfoAPI()
-      console.log(data)
-      // if (res.status === 0) {
-      //   context.commit('updateUserinfo', res.data)
-      // }
+      const { data: res } = await userinfoAPI()
+      // const data = await userinfoAPI()
+      // console.log(data)
+      if (res.status === 0) {
+        context.commit('updateUserinfo', res.data)
+      }
     }
   },
   modules: {

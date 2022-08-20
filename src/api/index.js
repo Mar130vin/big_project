@@ -22,3 +22,19 @@ export const userinfoAPI = () => {
     // method方法不写默认是get
   })
 }
+
+export const updataUserinfoAPI = ({ id, nickname, email, _ }) => {
+  return request({
+    url: '/my/userinfo',
+    method: 'post',
+    data: `id=${id}&nickname=${nickname}&email=${email}`
+  })
+}
+
+export const updateAvatarAPI = (avatar) => {
+  return request({
+    url: '/my/update/avatar',
+    method: 'post',
+    avatar: avatar
+  })
+}
