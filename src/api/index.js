@@ -35,6 +35,6 @@ export const updateAvatarAPI = (avatar) => {
   return request({
     url: '/my/update/avatar',
     method: 'post',
-    avatar: avatar
+    data: `avatar=${avatar}`
   })
 }

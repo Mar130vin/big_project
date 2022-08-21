@@ -15,7 +15,8 @@
         <el-submenu index="1">
           <template slot="title">
             <!-- 头像 -->
-            <img src="../../assets/images/logo.png" alt="" class="avatar" />
+            <img :src="user_pic" alt="" v-if="user_pic"  class="avatar" />
+            <img src="../../assets/images/logo.png" alt="" v-else />
             <span>个人中心</span>
           </template>
           <el-menu-item index="1-1"><i class="el-icon-s-operation"></i>基本资料</el-menu-item>
@@ -69,7 +70,7 @@
               <!-- <template slot="title">分组一</template> -->
               <el-menu-item index="/userinfo">基本资料</el-menu-item>
               <el-menu-item index="/updateavatar">更换头像</el-menu-item>
-              <el-menu-item index="/my/updatepwd">重置密码</el-menu-item>
+              <el-menu-item index="/updatepwd">重置密码</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

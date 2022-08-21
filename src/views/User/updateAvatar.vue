@@ -8,9 +8,10 @@
         <img class="the_img" v-else :src="this.avatar" alt="">
       <el-form-item>
         <div class="top">
-            <input type="file" accept="image/*" style="display: none" ref="iptRef" @change="onFileChange" />
-            <el-button type="primary" icon="el-icon-plus" @click="chooseImg">选择图片</el-button>
-            <el-button type="success" icon="el-icon-upload" :disabled="avatar === ''">上传头像</el-button>
+          <p>图片小于30k</p>
+          <input type="file" accept="image/*" style="display: none" ref="iptRef" @change="onFileChange" />
+          <el-button type="primary" icon="el-icon-plus" @click="chooseImg">选择图片</el-button>
+          <el-button type="success" icon="el-icon-upload" :disabled="avatar === ''" @click="uploadImg">上传头像</el-button>
         </div>
       </el-form-item>
     </el-form>
@@ -43,14 +44,18 @@ export default {
         // 选择了图片
         const fr = new FileReader()
         fr.readAsDataURL(files[0])
-        fr.onload = async (e) => {
+        fr.onload = (e) => {
           // console.log(e.target.result)
           this.avatar = e.target.result
-          const { data: res } = await updateAvatarAPI()
-          if (res.status !== 0) return this.$message.error('上传头像失败！')
-          this.$message.success('上传头像成功！')
         }
       }
+    },
+    async uploadImg () {
+      // console.log(this.avatar)
+      const { data: res } = await updateAvatarAPI(encodeURIComponent(this.avatar))
+      if (res.status !== 0) return this.$message.error(res.message)
+      this.$message.success(res.message)
+      this.$store.dispatch('initUserInfo')
     }
   }
   // watch: {

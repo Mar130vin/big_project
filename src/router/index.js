@@ -36,6 +36,10 @@ const routes = [
       {
         path: 'updateavatar', // 这里必须叫user-info, 因为侧边栏导航切换的是它
         component: () => import('../views/User/updateAvatar.vue')
+      },
+      {
+        path: 'updatepwd', // 这里必须叫user-info, 因为侧边栏导航切换的是它
+        component: () => import('../views/User/userPwd.vue')
       }
     ]
   }
