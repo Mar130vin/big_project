@@ -40,6 +40,10 @@ const routes = [
       {
         path: 'updatepwd', // 这里必须叫user-info, 因为侧边栏导航切换的是它
         component: () => import('../views/User/userPwd.vue')
+      },
+      {
+        path: 'articleCates', // 这里必须叫user-info, 因为侧边栏导航切换的是它
+        component: () => import('../views/article/artCate.vue')
       }
     ]
   }

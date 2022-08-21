@@ -38,3 +38,18 @@ export const updateAvatarAPI = (avatar) => {
     data: `avatar=${avatar}`
   })
 }
+
+export const updatePwdAPI = ({ oldPwd, newPwd, _ }) => {
+  return request({
+    url: '/my/updatepwd',
+    method: 'post',
+    data: `oldPwd=${oldPwd}&newPwd=${newPwd}`
+  })
+}
+
+export const articleCatesAPI = () => {
+  return request({
+    url: '/my/article/cates',
+    method: 'GET'
+  })
+}
