@@ -7,10 +7,12 @@ const RouterPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push (to) {
   return RouterPush.call(this, to).catch(err => err)
 }
+
 const RouterReplace = VueRouter.prototype.replace
 VueRouter.prototype.replace = function replace (to) {
   return RouterReplace.call(this, to).catch(err => err)
 }
+
 const routes = [
   {
     path: '/reg',
@@ -44,6 +46,10 @@ const routes = [
       {
         path: 'articleCates', // 这里必须叫user-info, 因为侧边栏导航切换的是它
         component: () => import('../views/article/artCate.vue')
+      },
+      {
+        path: 'addArticle', // 这里必须叫user-info, 因为侧边栏导航切换的是它
+        component: () => import('../views/article/addArticle.vue')
       }
     ]
   }

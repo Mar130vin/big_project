@@ -53,3 +53,26 @@ export const articleCatesAPI = () => {
     method: 'GET'
   })
 }
+
+export const addCatesAPI = ({ name, alias }) => {
+  return request({
+    url: '/my/article/addcates',
+    method: 'POST',
+    data: `name=${name}&alias=${alias}`
+  })
+}
+
+export const deletecatesAPI = (id) => {
+  return request({
+    url: `/my/article/deletecate/${id}`,
+    method: 'GET'
+  })
+}
+
+export const updatecateAPI = ({ Id, name, alias, _ }) => {
+  return request({
+    url: '/my/article/updatecate',
+    method: 'POST',
+    data: `Id=${Id}&name=${name}&alias=${alias}`
+  })
+}
