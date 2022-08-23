@@ -76,3 +76,11 @@ export const updatecateAPI = ({ Id, name, alias, _ }) => {
     data: `Id=${Id}&name=${name}&alias=${alias}`
   })
 }
+
+export const addArticleAPI = (formdata) => {
+  return request({
+    url: '/my/article/add',
+    method: 'POST',
+    data: formdata
+  })
+}

@@ -50,6 +50,10 @@ const routes = [
       {
         path: 'addArticle', // 这里必须叫user-info, 因为侧边栏导航切换的是它
         component: () => import('../views/article/addArticle.vue')
+      },
+      {
+        path: 'articleList', // 这里必须叫user-info, 因为侧边栏导航切换的是它
+        component: () => import('../views/article/articleList.vue')
       }
     ]
   }

@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-form >
-        <img class="the_img" v-if="!this.avatar" src="../../assets/images/avatar.jpg" alt="" />
-        <img class="the_img" v-else :src="this.avatar" alt="">
+        <img class="the_img" v-if="!this.imgPre" src="../../assets/images/avatar.jpg" alt="" />
+        <img class="the_img" v-else :src="this.imgPre" alt="">
       <el-form-item>
         <div class="top">
           <p>图片小于30k</p>
@@ -16,10 +16,11 @@
 
 <script>
 export default {
-  name: 'UserAvatar',
+  name: 'UserImgsrc',
   data () {
     return {
-      avatar: ''
+      imgsrc: '',
+      imgPre: ''
     }
   },
   methods: {
@@ -34,21 +35,27 @@ export default {
       const files = e.target.files
       if (files.length === 0) {
         // 没有选择图片
-        this.avatar = ''
+        this.imgsrc = null
+        this.$emit('deliverImg', this.imgsrc)
       } else {
-        // 选择了图片
-        const fr = new FileReader()
-        fr.readAsDataURL(files[0])
-        fr.onload = (e) => {
-          // console.log(e.target.result)
-          this.avatar = e.target.result
+        this.imgPre = URL.createObjectURL(files[0])
+        const reader = new FileReader()
+        reader.readAsArrayBuffer(files)
+        reader.onload = (e) => {
+          let data
+          if (typeof e.target.result === 'object') {
+            data = window.URL.createObjectURL(new Blob([e.target.result]))
+          } else {
+            data = e.target.result
+          }
+          this.imgsrc = data
+          console.log('图片地址：' + data)
+          this.$emit('deliverImg', data)
         }
       }
     }
-
-  }
-  // watch: {
-  //   avatar (newVal, oldVal) {
+  } // watch: {
+  //   imgsrc (newVal, oldVal) {
 
   //   }
   // }

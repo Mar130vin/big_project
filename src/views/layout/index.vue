@@ -57,7 +57,7 @@
             <el-menu-item-group>
               <!-- <template slot="title">分组一</template> -->
               <el-menu-item index="/articleCates">文章类别</el-menu-item>
-              <el-menu-item index="2-2">文章列表</el-menu-item>
+              <el-menu-item index="/articleList">文章列表</el-menu-item>
               <el-menu-item index="/addArticle">发布文章</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
