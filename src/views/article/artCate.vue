@@ -73,7 +73,7 @@ export default {
       // console.log('getArticleCatesFn')
       const { data: res } = await articleCatesAPI()
       if (res.status !== 0) return this.$message.error(res.message)
-      // this.$message.success(res.message)
+      this.$message.success(res.message)
       // 重新请求列表数据
       this.tableData = res.data
     },

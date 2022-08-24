@@ -29,6 +29,13 @@
       </div>
 
       <!-- 文章表格区域 -->
+      <el-table :data="artList" style="width: 100%;" border stripe>
+        <el-table-column label="文章标题" prop="title"></el-table-column>
+        <el-table-column label="分类" prop="cate_name"></el-table-column>
+        <el-table-column label="发表时间" prop="pub_date"></el-table-column>
+        <el-table-column label="状态" prop="state"></el-table-column>
+        <el-table-column label="操作"></el-table-column>
+      </el-table>
 
       <!-- 分页区域 -->
       <div class="block">
@@ -48,16 +55,18 @@
 </template>
 
 <script>
+import { getArticleListAPI } from '../../api/index'
 export default {
   name: 'ArtList',
   data () {
     return {
       // 查询参数对象
+      artList: [],
       q: {
         pagenum: 1,
         pagesize: 2,
-        cate_id: '',
-        state: ''
+        cateId: 1,
+        state: '已发布'
       }
     }
   },
@@ -67,7 +76,18 @@ export default {
     },
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
+    },
+    async initArtListFn () {
+      const { data: res } = await getArticleListAPI(this.q)
+      if (res.status !== 0) return this.$message.error(res.message)
+      this.$message.success(res.message)
+      console.log(res)
+      this.artList = res.data
+      this.total = res.total
     }
+  },
+  created () {
+    this.initArtListFn()
   }
 }
 </script>

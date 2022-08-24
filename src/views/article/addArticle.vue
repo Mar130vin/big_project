@@ -42,7 +42,8 @@
 <script>
 import GetArticleImg from './getArticleImg.vue'
 import ArticleTextarea from './ArticleTextarea.vue'
-import { articleCatesAPI } from '../../api/index'
+import { articleCatesAPI, addArticleAPI } from '../../api/index'
+
 export default {
   components: {
     GetArticleImg,
@@ -78,9 +79,9 @@ export default {
   methods: {
     submitForm (formName) {
       this.form.state = '已发布'
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          alert('submit!')
+          this.requestApi(this.form.state)
         } else {
           console.log('error submit!!')
           return false
@@ -88,14 +89,26 @@ export default {
       })
     },
     saveForm (formName) {
+      this.form.state = '草稿'
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('save!')
+          this.requestApi(this.form.state)
         } else {
           console.log('error save!!')
           return false
         }
       })
+    },
+    async requestApi (state) {
+      const fd = new FormData()
+      fd.append('title', this.form.title)
+      fd.append('content', this.form.content)
+      fd.append('cate_Id', this.form.cate_Id)
+      fd.append('cover_img', this.form.cover_img)
+      fd.append('state', state)
+      const { data: res } = await addArticleAPI(fd)
+      if (res.status !== 0) return this.$message.error(res.message)
+      this.$message.success(res.message)
     },
     getcontentTxtFn (contentTxtFromArticleTextarea) {
       this.form.content = contentTxtFromArticleTextarea
@@ -116,6 +129,7 @@ export default {
     },
     getImgFn (imgFromGetArticleImg) {
       this.form.cover_img = imgFromGetArticleImg
+      console.log(this.form.cover_img)
     }
   },
   created () {

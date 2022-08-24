@@ -84,3 +84,15 @@ export const addArticleAPI = (formdata) => {
     data: formdata
   })
 }
+
+export const getArticleListAPI = ({ pagenum, pagesize, cateId, state }) => {
+  return request({
+    url: '/my/article/list',
+    params: {
+      pagenum,
+      pagesize,
+      cate_id: cateId,
+      state
+    }
+  })
+}

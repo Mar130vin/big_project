@@ -19,7 +19,6 @@ export default {
   name: 'UserImgsrc',
   data () {
     return {
-      imgsrc: '',
       imgPre: ''
     }
   },
@@ -36,21 +35,29 @@ export default {
       if (files.length === 0) {
         // 没有选择图片
         this.imgsrc = null
-        this.$emit('deliverImg', this.imgsrc)
+        this.$emit('deliverImg', this.imgPre)
       } else {
-        this.imgPre = URL.createObjectURL(files[0])
-        const reader = new FileReader()
-        reader.readAsArrayBuffer(files)
-        reader.onload = (e) => {
-          let data
-          if (typeof e.target.result === 'object') {
-            data = window.URL.createObjectURL(new Blob([e.target.result]))
-          } else {
-            data = e.target.result
+        const fr = new FileReader()
+        fr.readAsDataURL(files[0])
+        fr.onload = (e) => {
+          this.imgPre = e.target.result // 图片预览
+          // 转成bolb需要先转base64
+          const arr = e.target.result.split(',')
+          // 获取base64字符串数组
+          const fileType = arr[0].match(/:(.*?);/)[1]
+          // 获取图片格式
+          const bstr = arr[1]
+          let l = bstr.length
+          const u8Arr = new Uint8Array(l)
+          // Uint8Array 数组类型表示一个 8 位无符号整型数组
+          while (l--) {
+            u8Arr[l] = bstr.charCodeAt(l)
+            // charCodeAt() 方法返回 0 到 65535 之间的整数，表示给定索引处的 UTF-16 代码单元
           }
-          this.imgsrc = data
-          console.log('图片地址：' + data)
-          this.$emit('deliverImg', data)
+          const imgPic = new Blob([u8Arr], {
+            type: fileType
+          })
+          this.$emit('deliverImg', imgPic)
         }
       }
     }
