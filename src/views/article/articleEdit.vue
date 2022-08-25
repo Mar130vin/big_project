@@ -141,7 +141,7 @@ export default {
       const { data: img } = await getArticlePictureAPI(res.data.cover_img)
       this.form.cover_img = img
       console.log(this.form.cover_img)
-      debugger
+      // debugger
     }
   },
   created () {

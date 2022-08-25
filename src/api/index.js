@@ -110,3 +110,10 @@ export const getArticlePictureAPI = (val) => {
     method: 'GET'
   })
 }
+
+export const deletArticleAPI = (id) => {
+  return request({
+    url: `/my/article/delete/${id}`,
+    method: 'GET'
+  })
+}

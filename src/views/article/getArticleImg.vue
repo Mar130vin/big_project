@@ -2,7 +2,8 @@
   <div>
     <el-form >
         <img class="the_img" v-if="!imgFormEdit"  src="../../assets/images/avatar.jpg" alt="" />
-        <img class="the_img" v-else  :src="'data:image/png;base64,' + imgFormEdit" alt="">
+        <img class="the_img" v-else-if="!imgPre"  src="../../assets/images/avatar.jpg" alt="" />
+        <img class="the_img" v-else :src="imgPre" alt="">
       <el-form-item>
         <div class="top">
           <p>图片小于30k</p>
@@ -75,11 +76,19 @@ export default {
     //   console.log(this.impre)
     // }
   },
+  watch: {
+    imgFormEdit () {
+      console.log(1)
+      this.imgPre = 'data:image/png;base64,' + this.imgFormEdit
+    }
+  },
   mounted () {
     console.log('####' + this.imgFormEdit)
-    debugger
-    this.impre = 'data:image/png;base64,' + this.imgFormEdit
-    console.log('@@@@' + this.impre)
+    // debugger
+    // this.imgPre = 'data:image/png;base64,' + this.imgFormEdit
+    // debugger
+    // this.impre = 'data:image/png;base64,' + this.imgFormEdit
+    // console.log('@@@@' + this.impre)
   }
 
 }

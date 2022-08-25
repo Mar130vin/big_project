@@ -5,11 +5,11 @@
     ref="myQuillEditor"
     class="editor"
     :options="editorOption"
+    @focus="onEditorFocus($event)"
     @change="onEditorChange($event)"
-    @blur="onEditorBlur($event)"
     ></quill-editor>
-    <!-- @focus="onEditorFocus($event)"
-    @change="onEditorChange($event)" -->
+    <!-- @blur="onEditorBlur($event)" -->
+    <!-- @change="onEditorChange($event)" -->
   </div>
 </template>
 
@@ -77,37 +77,42 @@ export default {
 
     // },
 
-    onEditorBlur (e) {
-      console.log(this.content)
-      // this.contentTxt = this.content
-      // console.log(this.contentTxt, typeof this.contentTxt)
-      // if (this.contentTxt.trim() === '') {
-      //   this.$emit('delivercontentTxt', '')
-      //   // console.log(this.contentTxt)
-      // } else {
-      //   this.$emit('delivercontentTxt', this.contentTxt)
-      // }
-    },
-    // 获得焦点事件
-    // onEditorFocus (e) {
-    //   console.log('onEditorFocus: ', e.html)
+    // onEditorBlur (e) {
+    //   console.log(this.content)
+    // this.contentTxt = this.content
+    // console.log(this.contentTxt, typeof this.contentTxt)
+    // if (this.contentTxt.trim() === '') {
+    //   this.$emit('delivercontentTxt', '')
+    //   // console.log(this.contentTxt)
+    // } else {
+    //   this.$emit('delivercontentTxt', this.contentTxt)
+    // }
     // },
+    // 获得焦点事件
+    onEditorFocus (e) {
+      console.log('onEditorFocus: ', e.html)
+    },
     // 内容改变事件
-    onEditorChange (e) {
-      // console.log('onEditorChange: ', e, e.text) 文本内容在文本框改变时能获取
-      this.contentTxt = e.html // 标签以<p></p> 形式渲染 （重点）
-      // console.log(this.contentTxt)
-      // this.contentTxt = e.text.substring(0, 100)
-      if (this.contentTxt.trim() === '') {
-        this.$emit('delivercontentTxt', '')
-        // console.log(this.contentTxt)
-      } else {
-        this.$emit('delivercontentTxt', this.contentTxt)
-      }
-      // this.$nextTick(() => {
-      //   this.$emit('delivercontentTxt', this.contentTxt)
-      // })
+    onEditorChange ({ quill, html, text }) {
+      console.log('editor change!', quill, html, text)
+      this.content = html
     }
+    // onEditorChange (e) {
+    //   console.log('onEditorChange: ', e, e.text)
+    //   // 文本内容在文本框改变时能获取
+    //   // this.contentTxt = e.html // 标签以<p></p> 形式渲染 （重点）
+    //   // console.log(this.contentTxt)
+    //   // this.contentTxt = e.text.substring(0, 100)
+    //   if (this.contentTxt.trim() === '') {
+    //     this.$emit('delivercontentTxt', '')
+    //     // console.log(this.contentTxt)
+    //   } else {
+    //     this.$emit('delivercontentTxt', this.contentTxt)
+    //   }
+    //   // this.$nextTick(() => {
+    //   //   this.$emit('delivercontentTxt', this.contentTxt)
+    //   // })
+    // }
   },
   computed: {
     editor () {
@@ -116,7 +121,7 @@ export default {
   },
   mounted () {
     console.log(this.contentFormEdit)
-    this.content = this.contentFormEdit
+    // this.content = this.contentFormEdit
   }
 
 }
