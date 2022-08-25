@@ -32,29 +32,35 @@ const routes = [
         component: () => import('../views/home/index.vue')
       },
       {
-        path: 'userinfo', // 这里必须叫user-info, 因为侧边栏导航切换的是它
+        path: 'userinfo',
         component: () => import('../views/User/userInfo.vue')
       },
       {
-        path: 'updateavatar', // 这里必须叫user-info, 因为侧边栏导航切换的是它
+        path: 'updateavatar',
         component: () => import('../views/User/updateAvatar.vue')
       },
       {
-        path: 'updatepwd', // 这里必须叫user-info, 因为侧边栏导航切换的是它
+        path: 'updatepwd',
         component: () => import('../views/User/userPwd.vue')
       },
       {
-        path: 'articleCates', // 这里必须叫user-info, 因为侧边栏导航切换的是它
-        component: () => import('../views/article/artCate.vue')
+        path: 'articleCates',
+        component: () => import('../views/article/articleCates.vue')
       },
       {
-        path: 'addArticle', // 这里必须叫user-info, 因为侧边栏导航切换的是它
-        component: () => import('../views/article/addArticle.vue')
+        path: 'articlePublish',
+        component: () => import('../views/article/articlePublish.vue')
       },
       {
-        path: 'articleList', // 这里必须叫user-info, 因为侧边栏导航切换的是它
+        path: 'articleList',
         component: () => import('../views/article/articleList.vue')
+      },
+      {
+        path: 'articleEdit',
+        name: 'articleEdit',
+        component: () => import('../views/article/articleEdit.vue')
       }
+
     ]
   }
 ]

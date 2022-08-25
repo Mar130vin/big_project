@@ -96,3 +96,17 @@ export const getArticleListAPI = ({ pagenum, pagesize, cateId, state }) => {
     }
   })
 }
+
+export const getArticleIdAPI = (id) => {
+  return request({
+    url: `/my/article/${id}`,
+    method: 'GET'
+  })
+}
+
+export const getArticlePictureAPI = (val) => {
+  return request({
+    url: val,
+    method: 'GET'
+  })
+}

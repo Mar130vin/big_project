@@ -2,8 +2,9 @@ import axios from 'axios'
 import store from '../store/index'
 import router from '../router/index'
 import { Message } from 'element-ui'
+export const baseURL = 'http://big-event-api-t.itheima.net'
 const myAxios = axios.create({
-  baseURL: 'http://big-event-api-t.itheima.net'
+  baseURL
 })
 // 添加请求拦截器
 myAxios.interceptors.request.use(function (config) {

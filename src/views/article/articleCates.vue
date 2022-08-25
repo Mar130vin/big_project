@@ -45,9 +45,9 @@
 
 <script>
 import { articleCatesAPI } from '../../api/index'
-import AddCate from './addCate.vue'
-import EditCate from './editCate.vue'
-import DelCate from './delCate.vue'
+import AddCate from '../../components/articleCate/addCate.vue'
+import EditCate from '../../components/articleCate/editCate.vue'
+import DelCate from '../../components/articleCate/delCate.vue'
 export default {
   components: {
     AddCate,

@@ -6,11 +6,10 @@
       </div>
       <!-- 搜索区域 -->
       <div class="search-box">
-        <el-form :inline="true" :model="q">
+        <el-form :inline="true" :model="q" ref="ruleForm">
           <el-form-item label="文章分类">
-            <el-select v-model="q.cate_id" placeholder="请选择分类" size="small">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="q.cateId" placeholder="请选择分类" size="small">
+               <el-option :label="obj.name" :value="obj.Id" v-for="obj in articleCatesList" :key="obj.Id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="发布状态" style="margin-left: 15px;">
@@ -20,34 +19,49 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" size="small">筛选</el-button>
-            <el-button type="info" size="small">重置</el-button>
+            <el-button type="primary" size="small" @click="onFilterFn">筛选</el-button>
+            <el-button type="info" size="small" @click="resetForm">重置</el-button>
           </el-form-item>
         </el-form>
         <!-- 发表文章的按钮 -->
-        <el-button type="primary" size="small" class="btn-pub">发表文章</el-button>
+        <el-button type="primary" size="small" class="btn-pub" @click="addArticle">发表文章</el-button>
       </div>
 
       <!-- 文章表格区域 -->
-      <el-table :data="artList" style="width: 100%;" border stripe>
+      <el-table :data="artList" style="width: 100%;" border stripe >
         <el-table-column label="文章标题" prop="title"></el-table-column>
         <el-table-column label="分类" prop="cate_name"></el-table-column>
-        <el-table-column label="发表时间" prop="pub_date"></el-table-column>
+        <el-table-column label="发表时间" prop="pub_date">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left: 10px">{{ scope.row.pub_date | data }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="状态" prop="state"></el-table-column>
-        <el-table-column label="操作"></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
 
       <!-- 分页区域 -->
       <div class="block">
-        <span class="demonstration">完整功能</span>
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="q.pagenum"
           :page-sizes="[2, 5, 8, 10]"
-          :page-size="10"
+          :page-size="q.pagesize"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="15">
+          :total="total"
+          :background="true">
         </el-pagination>
       </div>
     </el-card>
@@ -55,39 +69,91 @@
 </template>
 
 <script>
-import { getArticleListAPI } from '../../api/index'
+import Moment from 'moment'
+import { getArticleListAPI, articleCatesAPI } from '../../api/index'
 export default {
   name: 'ArtList',
   data () {
     return {
       // 查询参数对象
+      articleCatesList: [],
       artList: [],
       q: {
         pagenum: 1,
         pagesize: 2,
-        cateId: 1,
-        state: '已发布'
-      }
+        cateId: '',
+        state: ''
+      },
+      total: 1
     }
   },
   methods: {
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+    handleSizeChange (newSize) {
+      // console.log(`每页 ${newSize} 条`)
+      this.q.pagesize = newSize
+      // 默认展示第一页数据
+      this.q.pagenum = 1
+      // 重新发起请求
+      this.initArtListFn()
     },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+    handleCurrentChange (newPage) {
+      // console.log(`当前页: ${newPage}`)
+      // 为页码值赋值
+      this.q.pagenum = newPage
+      // 重新发起请求
+      this.initArtListFn()
     },
     async initArtListFn () {
+      // console.log(this.q)
       const { data: res } = await getArticleListAPI(this.q)
       if (res.status !== 0) return this.$message.error(res.message)
-      this.$message.success(res.message)
-      console.log(res)
+      // console.log(res)
       this.artList = res.data
       this.total = res.total
+    },
+    async getArticleCatesFn () {
+      // console.log('getArticleCatesFn')
+      const { data: res } = await articleCatesAPI()
+      if (res.status !== 0) return this.$message.error(res.message)
+      // console.log(res)
+      this.articleCatesList = res.data
+      // this.$message.success(res.message)
+      // 重新请求列表数据
+      // this.tableData = res.data
+    },
+    onFilterFn () {
+      // console.log(this.q.cateId, this.q.state)
+      this.initArtListFn()
+    },
+    resetForm () {
+      this.q.cateId = ''
+      this.q.state = ''
+      this.initArtListFn()
+    },
+    addArticle () {
+      this.$router.push('/articlePublish')
+    },
+    async handleEdit (index, row) {
+      // console.log(index, row)
+      // console.log(row.Id)
+      this.$router.push({
+        name: 'articleEdit',
+        query: row.Id
+      })
+    },
+    handleDelete (index, row) {
+      // console.log(index, row)
+    }
+  },
+  filters: {
+    // 过滤器设定时间
+    data (val) {
+      return Moment(val).format('YYYY-MM-DD HH:mm:ss')
     }
   },
   created () {
     this.initArtListFn()
+    this.getArticleCatesFn()
   }
 }
 </script>

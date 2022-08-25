@@ -1,8 +1,9 @@
 <template>
   <div>
     <el-form >
-        <img class="the_img" v-if="!imgFormEdit"  src="../../assets/images/avatar.jpg" alt="" />
-        <img class="the_img" v-else  :src="'data:image/png;base64,' + imgFormEdit" alt="">
+        <img class="the_img" v-if="imgFormEdit" :src="'http://big-event-api-t.itheima.net' + imgFormEdit" alt="" />
+        <img class="the_img" v-else-if="!this.imgPre"  src="../../assets/images/avatar.jpg" alt="" />
+        <img class="the_img" v-else :src="this.imgPre" alt="">
       <el-form-item>
         <div class="top">
           <p>图片小于30k</p>
@@ -15,17 +16,14 @@
 </template>
 
 <script>
+import { baseURL } from '../../utils/request'
 export default {
   name: 'UserImgsrc',
-  props: {
-    imgFormEdit: {
-      type: String,
-      default: '../../assets/images/avatar.jpg'
-    }
-  },
+  props: ['imgFormEdit'],
   data () {
     return {
-      imgPre: ''
+      imgPre: '',
+      baseURL
     }
   },
   methods: {
@@ -67,19 +65,9 @@ export default {
         }
       }
     }
-    // initImgFormEdit () {
-    //   if (this.imgFormEdit === '') return this.$message.error('图片获取失败')
-    //   // console.log(this.imgFormEdit)
-    //   this.impre = 'data:image/png;base64,' + this.imgFormEdit
-    //   // this.imgFormEdit = img
-    //   console.log(this.impre)
-    // }
   },
-  mounted () {
-    console.log('####' + this.imgFormEdit)
-    debugger
-    this.impre = 'data:image/png;base64,' + this.imgFormEdit
-    console.log('@@@@' + this.impre)
+  created () {
+    console.log('http://big-event-api-t.itheima.net' + this.imgFormEdit)
   }
 
 }

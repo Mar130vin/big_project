@@ -6,8 +6,8 @@
     class="editor"
     :options="editorOption"
     @change="onEditorChange($event)"
+    @blur="onEditorBlur($event)"
     ></quill-editor>
-    <!-- @blur="onEditorBlur($event)" -->
     <!-- @focus="onEditorFocus($event)"
     @change="onEditorChange($event)" -->
   </div>
@@ -21,9 +21,9 @@ import { quillEditor } from 'vue-quill-editor'
 
 export default {
   props: {
-    form: {
-      type: Object,
-      default: () => ({})
+    contentFormEdit: {
+      type: String,
+      default: ''
     }
   },
   components: {
@@ -61,7 +61,7 @@ export default {
     ]
     return {
       contentTxt: '',
-      content: '',
+      content: '', // 富文本显示内容
       editorOption: {
         modules: {
           toolbar: toolbarOptions
@@ -77,18 +77,27 @@ export default {
 
     // },
 
-    // onEditorBlur (e) {
-    //   console.log(this.contentTxt)
-    // },
+    onEditorBlur (e) {
+      console.log(this.content)
+      // this.contentTxt = this.content
+      // console.log(this.contentTxt, typeof this.contentTxt)
+      // if (this.contentTxt.trim() === '') {
+      //   this.$emit('delivercontentTxt', '')
+      //   // console.log(this.contentTxt)
+      // } else {
+      //   this.$emit('delivercontentTxt', this.contentTxt)
+      // }
+    },
     // 获得焦点事件
     // onEditorFocus (e) {
-    //   console.log('onEditorFocus: ', e)
+    //   console.log('onEditorFocus: ', e.html)
     // },
-    // // 内容改变事件
+    // 内容改变事件
     onEditorChange (e) {
       // console.log('onEditorChange: ', e, e.text) 文本内容在文本框改变时能获取
-      // _this.content = e.html // 标签以<p></p> 形式渲染 （重点）
-      this.contentTxt = e.text.substring(0, 100)
+      this.contentTxt = e.html // 标签以<p></p> 形式渲染 （重点）
+      // console.log(this.contentTxt)
+      // this.contentTxt = e.text.substring(0, 100)
       if (this.contentTxt.trim() === '') {
         this.$emit('delivercontentTxt', '')
         // console.log(this.contentTxt)
@@ -105,8 +114,11 @@ export default {
       return this.$refs.myQuillEditor.quill
     }
   },
-  watch: {
+  mounted () {
+    console.log(this.contentFormEdit)
+    this.content = this.contentFormEdit
   }
+
 }
 </script>
 
