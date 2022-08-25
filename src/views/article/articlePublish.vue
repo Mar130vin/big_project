@@ -25,8 +25,8 @@
             ></quill-editor> -->
             <!-- 失焦判断法 -->
           <!-- <el-input type="textarea" v-model="form.textarea"></el-input> -->
-          <!-- <ArticleTextarea v-model="form.content" @delivercontentTxt="getcontentTxtFn"></ArticleTextarea> -->
-          <ArticleTextareaWang v-model="form.content" @delivercontentTxt="getcontentTxtFn"></ArticleTextareaWang>
+          <ArticleTextarea v-model="form.content" @delivercontentTxt="getcontentTxtFn"></ArticleTextarea>
+          <!-- <ArticleTextareaWang v-model="form.content" @delivercontentTxt="getcontentTxtFn"></ArticleTextareaWang> -->
         </el-form-item>
         <el-form-item label="文章封面" v-model="form.cover_img" prop="cover_img">
           <GetArticleImg v-model="form.cover_img" @deliverImg="getImgFn"></GetArticleImg>
@@ -42,13 +42,13 @@
 
 <script>
 import GetArticleImg from './getArticleImg.vue'
-import ArticleTextareaWang from './ArticleTextareaWang.vue'
+import ArticleTextarea from './ArticleTextarea.vue'
 import { articleCatesAPI, addArticleAPI } from '../../api/index'
 
 export default {
   components: {
     GetArticleImg,
-    ArticleTextareaWang
+    ArticleTextarea
   },
   data () {
     return {
