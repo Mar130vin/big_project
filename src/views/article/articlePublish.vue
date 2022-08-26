@@ -131,7 +131,7 @@ export default {
     },
     getImgFn (imgFromGetArticleImg) {
       this.form.cover_img = imgFromGetArticleImg
-      console.log(this.form.cover_img)
+      // console.log(this.form.cover_img)
     }
   },
   created () {

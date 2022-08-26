@@ -5,6 +5,7 @@
       <div slot="header" class="clearfix">
         <span>修改文章
           此页面刷新会丢失数据
+          请求错误报错不用管是图片格式问题
         </span>
       </div>
       <el-form ref="form" :model="form" label-width="80px"  :rules="rules">
@@ -114,6 +115,7 @@ export default {
       const { data: res } = await editArticleAPI(fd)
       if (res.status !== 0) return this.$message.error(res.message)
       this.$message.success(res.message)
+      this.$router.push('/articleList')
     },
     getcontentTxtFn (contentTxtFromArticleTextarea) {
       this.form.content = contentTxtFromArticleTextarea
@@ -136,11 +138,11 @@ export default {
       this.form.cover_img = imgFromGetArticleImg
       // console.log(this.form.cover_img)
     },
-    async initEditArticleImg () {
+    async initEditArticleData () {
+      // if (this.$route.query) return this.$router.push('/articleList')
       const { data: res } = await getArticleIdAPI(this.$route.query)
       Object.assign(this.form, res.data)
       // console.log(this.form)
-      console.log(res.data.cover_img)
       this.form.cover_img = res.data.cover_img
       // console.log(this.form.cover_img)
       // debugger
@@ -148,7 +150,7 @@ export default {
   },
   created () {
     this.getArticleCatesFn()
-    this.initEditArticleImg()
+    this.initEditArticleData()
   }
 
 }

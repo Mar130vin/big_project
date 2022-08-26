@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-form >
-        <img class="the_img" v-if="!imgFormEdit"  src="../../assets/images/avatar.jpg" alt="" />
-        <img class="the_img" v-else-if="!imgPre"  src="../../assets/images/avatar.jpg" alt="" />
+        <img class="the_img" v-if="imgFormEdit"  :src="imgPre" alt="" />
+        <img class="the_img" v-else-if="!imgPre"  src="../../assets/images/cover.jpg" alt="" />
         <img class="the_img" v-else :src="imgPre" alt="">
       <el-form-item>
         <div class="top">
@@ -82,9 +82,18 @@ export default {
       this.$emit('deliverImg', imgPic)
     },
     async getBase64Img () {
-      const { data: img } = await getArticlePictureAPI(this.imgFormEdit)
-      this.imgPre = 'data:image/png;base64,' + img
-      this.editImgbase64ToBolb(this.imgPre)
+      try {
+        // console.log(typeof this.imgFormEdit === 'string')
+        const { data: img } = await getArticlePictureAPI(this.imgFormEdit)
+        this.imgPre = 'data:image/png;base64,' + img
+
+        // this.imgPre.toString()
+        // console.log(this.imgPre.toString())
+        this.editImgbase64ToBolb(this.imgPre.toString())
+      } catch (error) {
+        // console.log(error)
+      }
+      // this.imgFormEdit.toString()
     }
   },
   watch: {

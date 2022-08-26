@@ -4,6 +4,7 @@
       <span>更换头像</span>
     </div>
     <GetAvater></GetAvater>
+    <!-- 测试vue-img-cutter插件这个插件这个项目没有用 -->
     <ImageCutter></ImageCutter>
   </el-card>
 </template>

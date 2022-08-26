@@ -48,6 +48,7 @@ export default {
     // 对话框内-取消按钮-点击事件
     cancelFn () {
       this.delVisible = false
+      this.$emit('initArtList')
     }
   },
   watch: {

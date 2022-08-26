@@ -151,6 +151,9 @@ export default {
       })
     },
     handleDelete (index, row) {
+      const totalPage = Math.ceil((this.total - 1) / this.q.pagesize)
+      const currentPage = this.q.pagenum > totalPage ? totalPage : this.q.pagenum
+      this.q.pagenum = currentPage < 1 ? 1 : currentPage
       this.delVisible = !this.delVisible
       this.delParameters = row.Id
     }
