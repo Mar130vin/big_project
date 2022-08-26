@@ -3,7 +3,9 @@
     <!-- 新增文章 -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>修改文章</span>
+        <span>修改文章
+          此页面刷新会丢失数据
+        </span>
       </div>
       <el-form ref="form" :model="form" label-width="80px"  :rules="rules">
         <el-form-item label="文章标题" prop="title">
@@ -42,7 +44,7 @@
 <script>
 import GetArticleImg from './getArticleImg.vue'
 import ArticleTextarea from './ArticleTextarea.vue'
-import { articleCatesAPI, addArticleAPI, getArticleIdAPI, getArticlePictureAPI } from '../../api/index'
+import { articleCatesAPI, editArticleAPI, getArticleIdAPI } from '../../api/index'
 
 export default {
   components: {
@@ -82,7 +84,7 @@ export default {
       this.form.state = '已发布'
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.requestAddApi(this.form.state)
+          this.editRequestApi(this.form.state)
         } else {
           console.log('error submit!!')
           return false
@@ -93,7 +95,7 @@ export default {
       this.form.state = '草稿'
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.requestAddApi(this.form.state)
+          this.editRequestApi(this.form.state)
         } else {
           console.log('error save!!')
           return false
@@ -101,14 +103,15 @@ export default {
       })
     },
     // 编辑文章调用
-    async requestAddApi (state) {
+    async editRequestApi (state) {
       const fd = new FormData()
+      fd.append('Id', this.form.Id)
       fd.append('title', this.form.title)
-      fd.append('content', this.form.content)
       fd.append('cate_id', this.form.cate_id)
+      fd.append('content', this.form.content)
       fd.append('cover_img', this.form.cover_img)
       fd.append('state', state)
-      const { data: res } = await addArticleAPI(fd)
+      const { data: res } = await editArticleAPI(fd)
       if (res.status !== 0) return this.$message.error(res.message)
       this.$message.success(res.message)
     },
@@ -137,10 +140,9 @@ export default {
       const { data: res } = await getArticleIdAPI(this.$route.query)
       Object.assign(this.form, res.data)
       // console.log(this.form)
-      // console.log(res.data.cover_img)
-      const { data: img } = await getArticlePictureAPI(res.data.cover_img)
-      this.form.cover_img = img
-      console.log(this.form.cover_img)
+      console.log(res.data.cover_img)
+      this.form.cover_img = res.data.cover_img
+      // console.log(this.form.cover_img)
       // debugger
     }
   },

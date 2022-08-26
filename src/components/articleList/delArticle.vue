@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { deletecatesAPI } from '../../api/index'
+import { deletArticleAPI } from '../../api/index'
 export default {
   props: {
     delCateProps: {
@@ -39,11 +39,11 @@ export default {
     // 对话框内-添加按钮-点击事件
     async delFn () {
       this.delVisible = false
-      const { data: res } = await deletecatesAPI(this.delParametersClone)
+      const { data: res } = await deletArticleAPI(this.delParametersClone)
       if (res.status !== 0) return this.$message.error(res.message)
       this.$message.success(res.message)
       // 重新请求列表数据
-      this.$emit('getArticleCates')
+      this.$emit('initArtList')
     },
     // 对话框内-取消按钮-点击事件
     cancelFn () {

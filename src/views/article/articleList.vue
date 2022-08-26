@@ -65,19 +65,28 @@
         </el-pagination>
       </div>
     </el-card>
+  <!-- 这个组件要放在card外面div里面才能触发显示隐藏因为本身就是一个独立组建 -->
+  <DelArticle :delCateProps="delVisible" @initArtList="initArtListFn" :delParameters="delParameters"></DelArticle>
   </div>
 </template>
 
 <script>
+import DelArticle from '../../components/articleList/delArticle.vue'
 import Moment from 'moment'
 import { getArticleListAPI, articleCatesAPI } from '../../api/index'
 export default {
+  components: {
+    DelArticle
+  },
   name: 'ArtList',
   data () {
     return {
+      // 删除组件
+      delVisible: false,
+      delParameters: 1,
       // 查询参数对象
       articleCatesList: [],
-      artList: [],
+      artList: [], // 文章列表
       q: {
         pagenum: 1,
         pagesize: 2,
@@ -142,7 +151,8 @@ export default {
       })
     },
     handleDelete (index, row) {
-      // console.log(index, row)
+      this.delVisible = !this.delVisible
+      this.delParameters = row.Id
     }
   },
   filters: {

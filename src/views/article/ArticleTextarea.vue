@@ -5,9 +5,9 @@
     ref="myQuillEditor"
     class="editor"
     :options="editorOption"
-    @focus="onEditorFocus($event)"
     @change="onEditorChange($event)"
     ></quill-editor>
+    <!-- @focus="onEditorFocus($event)" -->
     <!-- @blur="onEditorBlur($event)" -->
     <!-- @change="onEditorChange($event)" -->
   </div>
@@ -60,7 +60,6 @@ export default {
       // 链接、图片、视频-----['link', 'image', 'video']
     ]
     return {
-      contentTxt: '',
       content: '', // 富文本显示内容
       editorOption: {
         modules: {
@@ -78,49 +77,33 @@ export default {
     // },
 
     // onEditorBlur (e) {
-    //   console.log(this.content)
-    // this.contentTxt = this.content
-    // console.log(this.contentTxt, typeof this.contentTxt)
-    // if (this.contentTxt.trim() === '') {
-    //   this.$emit('delivercontentTxt', '')
-    //   // console.log(this.contentTxt)
-    // } else {
-    //   this.$emit('delivercontentTxt', this.contentTxt)
-    // }
     // },
     // 获得焦点事件
-    onEditorFocus (e) {
-      console.log('onEditorFocus: ', e.html)
-    },
+    // onEditorFocus (e) {
+    //   console.log('onEditorFocus: ', e.html)
+    // },
     // 内容改变事件
     onEditorChange ({ quill, html, text }) {
-      console.log('editor change!', quill, html, text)
+      // console.log('editor change!', quill, html, text)
       this.content = html
+      // console.log(this.content)
+      if (this.content.trim() === '') {
+        this.$emit('delivercontentTxt', '')
+      // console.log(this.contentTxt)
+      } else {
+        this.$emit('delivercontentTxt', this.content)
+      }
     }
-    // onEditorChange (e) {
-    //   console.log('onEditorChange: ', e, e.text)
-    //   // 文本内容在文本框改变时能获取
-    //   // this.contentTxt = e.html // 标签以<p></p> 形式渲染 （重点）
-    //   // console.log(this.contentTxt)
-    //   // this.contentTxt = e.text.substring(0, 100)
-    //   if (this.contentTxt.trim() === '') {
-    //     this.$emit('delivercontentTxt', '')
-    //     // console.log(this.contentTxt)
-    //   } else {
-    //     this.$emit('delivercontentTxt', this.contentTxt)
-    //   }
-    //   // this.$nextTick(() => {
-    //   //   this.$emit('delivercontentTxt', this.contentTxt)
-    //   // })
-    // }
   },
   computed: {
     editor () {
       return this.$refs.myQuillEditor.quill
     }
   },
-  mounted () {
-    console.log(this.contentFormEdit)
+  watch: {
+    contentFormEdit () {
+      this.content = this.contentFormEdit
+    }
     // this.content = this.contentFormEdit
   }
 

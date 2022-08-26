@@ -82,7 +82,7 @@ export default {
       this.form.state = '已发布'
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.requestApi(this.form.state)
+          this.publishRequestApi(this.form.state)
         } else {
           console.log('error submit!!')
           return false
@@ -93,14 +93,14 @@ export default {
       this.form.state = '草稿'
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.requestApi(this.form.state)
+          this.publishRequestApi(this.form.state)
         } else {
           console.log('error save!!')
           return false
         }
       })
     },
-    async requestApi (state) {
+    async publishRequestApi (state) {
       const fd = new FormData()
       fd.append('title', this.form.title)
       fd.append('content', this.form.content)
@@ -113,6 +113,7 @@ export default {
     },
     getcontentTxtFn (contentTxtFromArticleTextarea) {
       this.form.content = contentTxtFromArticleTextarea
+      // console.log(this.form.content)
       // 富文本内容最后做判断即可 失焦不用判断
       // 非要判断就把富文本组件直接放在这个组件里面 trigger：change
       // 然后执行

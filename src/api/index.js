@@ -117,3 +117,11 @@ export const deletArticleAPI = (id) => {
     method: 'GET'
   })
 }
+
+export const editArticleAPI = (formdata) => {
+  return request({
+    url: '/my/article/edit',
+    method: 'POST',
+    data: formdata
+  })
+}

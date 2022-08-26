@@ -16,14 +16,10 @@
 </template>
 
 <script>
+import { getArticlePictureAPI } from '../../api/index'
 export default {
   name: 'UserImgsrc',
-  props: {
-    imgFormEdit: {
-      type: String,
-      default: '../../assets/images/avatar.jpg'
-    }
-  },
+  props: ['imgFormEdit'],
   data () {
     return {
       imgPre: ''
@@ -67,28 +63,34 @@ export default {
           this.$emit('deliverImg', imgPic)
         }
       }
+    },
+    editImgbase64ToBolb (e) {
+      const arr = e.split(',')
+      const fileType = arr[0].match(/:(.*?);/)[1]
+      // 获取图片格式
+      const bstr = arr[1]
+      let l = bstr.length
+      const u8Arr = new Uint8Array(l)
+      // Uint8Array 数组类型表示一个 8 位无符号整型数组
+      while (l--) {
+        u8Arr[l] = bstr.charCodeAt(l)
+        // charCodeAt() 方法返回 0 到 65535 之间的整数，表示给定索引处的 UTF-16 代码单元
+      }
+      const imgPic = new Blob([u8Arr], {
+        type: fileType
+      })
+      this.$emit('deliverImg', imgPic)
+    },
+    async getBase64Img () {
+      const { data: img } = await getArticlePictureAPI(this.imgFormEdit)
+      this.imgPre = 'data:image/png;base64,' + img
+      this.editImgbase64ToBolb(this.imgPre)
     }
-    // initImgFormEdit () {
-    //   if (this.imgFormEdit === '') return this.$message.error('图片获取失败')
-    //   // console.log(this.imgFormEdit)
-    //   this.impre = 'data:image/png;base64,' + this.imgFormEdit
-    //   // this.imgFormEdit = img
-    //   console.log(this.impre)
-    // }
   },
   watch: {
     imgFormEdit () {
-      console.log(1)
-      this.imgPre = 'data:image/png;base64,' + this.imgFormEdit
+      this.getBase64Img()
     }
-  },
-  mounted () {
-    console.log('####' + this.imgFormEdit)
-    // debugger
-    // this.imgPre = 'data:image/png;base64,' + this.imgFormEdit
-    // debugger
-    // this.impre = 'data:image/png;base64,' + this.imgFormEdit
-    // console.log('@@@@' + this.impre)
   }
 
 }
