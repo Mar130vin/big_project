@@ -39,6 +39,7 @@ export default {
         this.avatar = ''
       } else {
         // 选择了图片
+        // 转base64
         const fr = new FileReader()
         fr.readAsDataURL(files[0])
         fr.onload = (e) => {

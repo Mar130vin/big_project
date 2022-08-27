@@ -87,9 +87,7 @@ export default {
         const { data: img } = await getArticlePictureAPI(this.imgFormEdit)
         this.imgPre = 'data:image/png;base64,' + img
 
-        // this.imgPre.toString()
-        // console.log(this.imgPre.toString())
-        this.editImgbase64ToBolb(this.imgPre.toString())
+        this.editImgbase64ToBolb(this.imgPre)
       } catch (error) {
         // console.log(error)
       }

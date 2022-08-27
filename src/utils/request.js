@@ -37,6 +37,7 @@ myAxios.interceptors.response.use(function (response) {
   // 超出 2xx 范围的状态码都会触发该函数。
   // 对响应错误做点什么
   // Message.error('请求错误！！！')
+  //! 解决编辑文章获取图片失败可以所以注掉不然会报错可以把上面代码解开看看
   return Promise.reject(error)
 })
 // 导出自定义的axios方法, 供外面调用传参发请求
